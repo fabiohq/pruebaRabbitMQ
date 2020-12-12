@@ -1,0 +1,45 @@
+package co.com.producer;
+
+import java.nio.charset.StandardCharsets;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+
+public class Emisor {
+
+	private final static String QUEUE_NAME = "Prueba";
+	
+	public static void main(String[] args) {
+		Emisor obj = new Emisor();
+		try {
+			//while(true) {
+				obj.publicar();
+			//}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void publicar() throws Exception{
+		ConnectionFactory factory = new ConnectionFactory();
+		//Conexion con uri
+		//factory.setUri("amqp://userName:password@hostName:portNumber/virtualHost");
+		factory.setUri("amqp://guest:guest@localhost:5672");
+		try (Connection connection = factory.newConnection("app:audit component:event-consumer");
+				Channel channel =connection.createChannel()){
+			//channel.queueDelete(QUEUE_NAME, false, true);
+			Thread.sleep(5000);
+			channel.queueDeclare(QUEUE_NAME,false,false,false,null);
+			String mensaje = "Hola Mundo 5";
+			channel.basicPublish("", QUEUE_NAME, null, mensaje.getBytes(StandardCharsets.UTF_8));
+			
+			System.out.println("Enviando Mensaje "+mensaje);
+			
+			
+			
+		}
+	}
+}

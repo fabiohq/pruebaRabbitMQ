@@ -1,0 +1,22 @@
+package co.com.consumer;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class ExpresionesRegulares {
+
+	public static void main(String[] args) {
+		ExpresionesRegulares obj = new ExpresionesRegulares();
+		obj.expresion1();
+	}
+	String cadena ="dfggh123";
+	public void expresion1() {
+		Pattern pat = Pattern.compile(".*[^\d]{3}$");
+	     Matcher mat = pat.matcher(cadena);                                                                           
+	     if (mat.matches()) {
+	         System.out.println("SI");
+	     } else {
+	         System.out.println("NO");                                                                                
+	     }
+	}
+}

@@ -1,0 +1,36 @@
+package co.com.producer;
+
+import java.nio.charset.StandardCharsets;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+
+public class Emisor {
+
+	private final static String QUEUE_NAME = "Prueba";
+	
+	public static void main(String[] args) {
+		Emisor obj = new Emisor();
+		try {
+			obj.publicar();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void publicar() throws Exception{
+		ConnectionFactory conexion = new ConnectionFactory();
+		conexion.setHost("localhost");
+		try (Connection connection = conexion.newConnection();
+				Channel channel =connection.createChannel()){
+			channel.queueDeclare(QUEUE_NAME,false,false,false,null);
+			String mensaje = "Hola Mundo 3";
+			channel.basicPublish("", QUEUE_NAME, null, mensaje.getBytes(StandardCharsets.UTF_8));
+			
+			System.out.println("Enviando Mensaje "+mensaje);
+			
+		}
+	}
+}

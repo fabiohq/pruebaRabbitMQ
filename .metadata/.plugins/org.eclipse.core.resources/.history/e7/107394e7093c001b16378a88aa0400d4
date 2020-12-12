@@ -1,0 +1,6 @@
+package co.com.producer;
+
+public class Emisor {
+
+	private final static String QUEUE_NAME = "Prueba";
+}

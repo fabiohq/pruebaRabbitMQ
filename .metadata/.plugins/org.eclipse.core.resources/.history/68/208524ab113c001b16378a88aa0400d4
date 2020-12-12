@@ -1,0 +1,6 @@
+package co.com.consumer;
+
+public class Receptor {
+
+	private static final String QUEU_NAME = "Prueba";
+}
